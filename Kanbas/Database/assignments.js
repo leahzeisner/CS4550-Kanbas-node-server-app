@@ -1,4 +1,4 @@
-[
+export default [
   {
     "_id": "grettymjyer4t3",
     "courseId": "12631",

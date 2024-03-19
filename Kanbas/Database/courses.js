@@ -1,4 +1,4 @@
-[
+export default [
   {
     "_id": "12631",
     "name": "CS4550 12631 Web Development",
