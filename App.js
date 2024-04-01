@@ -1,5 +1,7 @@
+import "dotenv/config";
 import express from 'express'
 import mongoose from "mongoose";
+import session from "express-session";
 import cors from "cors";
 import Hello from "./Hello.js"
 import Lab5 from './labs/Lab5.js'
@@ -12,7 +14,27 @@ import ComingUpRoutes from './Kanbas/comingups/routes.js';
 
 mongoose.connect("mongodb://localhost:27017/kanbas?directConnection=true");
 const app = express()
-app.use(cors());
+app.use(
+    cors({
+        credentials: true,
+        origin: process.env.FRONTEND_URL
+    })
+);
+
+const sessionOptions = {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+};
+if (process.env.NODE_ENV !== "development") {
+    sessionOptions.proxy = true;
+    sessionOptions.cookie = {
+        sameSite: "none",
+        secure: true,
+    };
+}
+app.use(session(sessionOptions));
+
 app.use(express.json());
 Lab5(app);
 Hello(app)
