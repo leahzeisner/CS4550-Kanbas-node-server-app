@@ -49,7 +49,7 @@ export default function UserRoutes(app) {
     res.json(currentUser);
   };
 
-  const signin = async (req, res) => {
+  const login = async (req, res) => {
     const { username, password } = req.body;
     const currentUser = await dao.findUserByCredentials(username, password);
     if (currentUser) {
@@ -81,7 +81,7 @@ export default function UserRoutes(app) {
   app.put("/api/users/:userId", updateUser);
   app.delete("/api/users/:userId", deleteUser);
   app.post("/api/users/signup", signup);
-  app.post("/api/users/signin", signin);
+  app.post("/api/users/login", login);
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
 }
