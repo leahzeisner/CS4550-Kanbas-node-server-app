@@ -1,0 +1,31 @@
+{
+  "courseId": "MATH123",
+  "title": "TEST",
+  "description": "test description",
+  "dueDate": "2024-04-15",
+  "availableDate": "2024-04-10",
+  "availableUntilDate": "2024-04-30",
+  "points": "100",
+  "published": true,
+  "questions": [
+    {
+      "type": "MULTIPLE_CHOICE",
+      "title": "Q1",
+      "question": "What is a dog?",
+      "answers": [
+        { "answer": "animal", "isCorrect": true },
+        { "answer": "color", "isCorrect": false }
+      ],
+      "points": "100"
+    }
+  ],
+  "quizType": "test",
+  "assignmentGroup": "assignment group 1",
+  "shuffleAnswers": false,
+  "timeLimit": "10",
+  "multipleAttempts": false,
+  "accessCode": "code",
+  "oneQuestionAtATime": true,
+  "webcamRequired": false,
+  "lockQuestionsAfterAnswering": false
+}
