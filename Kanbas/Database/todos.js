@@ -1,7 +1,7 @@
 export default [
   {
     "_id": "jsdvjbhefbji",
-    "courseId": "12631",
+    "courseId": "660dcc0416624014b35136b1",
     "title": "Grade A1 - ENV + HTML",
     "url": "#",
     "points": "100",
@@ -10,7 +10,7 @@ export default [
   },
   {
     "_id": "bhjdfshbiefwbhi",
-    "courseId": "12631",
+    "courseId": "660dcc0416624014b35136b1",
     "title": "Grade A2 - CSS + BOOTSTRAP",
     "url": "#",
     "points": "100",
