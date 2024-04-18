@@ -1,93 +1,70 @@
-import db from "../Database/index.js";
+import * as dao from "./dao.js";
 
 function ModuleRoutes(app) {
-  app.get("/api/courses/:cid/modules", (req, res) => {
+  const createModule = async (req, res) => {
+    delete req.body._id;
+    const module = await dao.createModule(req.body);
+    res.json(module);
+  };
+
+  const findAllModules = async (req, res) => {
     const { cid } = req.params;
-    const modules = db.modules
-      .filter((m) => m.courseId === cid);
-    res.send(modules);
-  });
+    const modules = await dao.findAllModules();
+    res.json(modules.filter((m) => m.courseId === cid));
+  };
 
-  app.post("/api/courses/:cid/modules", (req, res) => {
-    const { cid } = req.params;
-    const newModule = {
-      ...req.body,
-      courseId: cid,
-      _id: new Date().getTime().toString(),
-    };
-    db.modules.push(newModule);
-    res.send(newModule);
-  });
+  const findModuleById = async (req, res) => {
+    const module = await dao.findModuleById(req.params.mid);
+    res.json(module);
+  };
 
-  app.delete("/api/modules/:mid", (req, res) => {
+  const deleteModule = async (req, res) => {
+    const status = await dao.deleteModule(req.params.mid);
+    res.json(status);
+  };
+
+  const updateModule = async (req, res) => {
     const { mid } = req.params;
-    db.modules = db.modules.filter((m) => m._id !== mid);
-    res.sendStatus(200);
-  });
+    const status = await dao.updateModule(mid, req.body);
+    res.json(status);
+  };
 
-  app.put("/api/modules/:mid", (req, res) => {
+  const createSection = async (req, res) => {
     const { mid } = req.params;
-    const moduleIndex = db.modules.findIndex(
-      (m) => m._id === mid);
-    db.modules[moduleIndex] = {
-      ...db.modules[moduleIndex],
-      ...req.body
-    };
-    res.sendStatus(204);
-  });
+    const { module, section } = req.body
+    delete section._id;
 
-  app.put("/api/modules/:mid/section/:sid", (req, res) => {
+    const updatedModule = {
+      ...module,
+      sections: [...module.sections, section]
+    }
+    const status = await dao.updateModule(mid, updatedModule);
+    res.json(status);
+  };
+
+  const createLesson = async (req, res) => {
     const { mid, sid } = req.params;
-    const moduleIndex = db.modules.findIndex((m) => m._id === mid);
-    const module = db.modules[moduleIndex]
+    const { module, lesson } = req.body
+    delete lesson._id;
 
-    db.modules[moduleIndex] = {
+    const updatedModule = {
       ...module,
-      sections: module.sections.map((s) => s._id === sid ? {...s, ...req.body} : s)
-    };
+      sections: module.sections.map((s) =>
+        s._id === sid
+        ? {...s, lessons: [...s.lessons, lesson]}
+        : s
+      )
+    }
+    const status = await dao.updateModule(mid, updatedModule);
+    res.json(status);
+  };
 
-    res.sendStatus(204);
-  });
-
-  app.delete("/api/modules/:mid/section/:sid", (req, res) => {
-    const { mid, sid } = req.params;
-    const moduleIndex = db.modules.findIndex((m) => m._id === mid);
-    const module = db.modules[moduleIndex]
-
-    db.modules[moduleIndex] = {
-      ...module,
-      sections: module.sections.filter((s) => s._id !== sid)
-    };
-
-    res.sendStatus(204);
-  });
-
-  app.put("/api/modules/:mid/section/:sid/lesson/:lid", (req, res) => {
-    const { mid, sid, lid } = req.params;
-    const moduleIndex = db.modules.findIndex((m) => m._id === mid);
-    const module = db.modules[moduleIndex]
-
-    db.modules[moduleIndex] = {
-      ...module,
-      sections: module.sections.map(
-        (s) => s._id === sid ? {...s, lessons: s.lessons.map((l) => l._id === lid ? {...l, ...req.body} : l)} : s)
-    };
-
-    res.sendStatus(204);
-  });
-
-  app.delete("/api/modules/:mid/section/:sid/lesson/:lid", (req, res) => {
-    const { mid, sid, lid } = req.params;
-    const moduleIndex = db.modules.findIndex((m) => m._id === mid);
-    const module = db.modules[moduleIndex]
-
-    db.modules[moduleIndex] = {
-      ...module,
-      sections: module.sections.map(
-        (s) => s._id === sid ? {...s, lessons: s.lessons.filter((l) => l._id !== lid)} : s)
-    };
-
-    res.sendStatus(204);
-  });
+  app.post("/api/courses/:cid/modules", createModule);
+  app.get("/api/courses/:cid/modules", findAllModules);
+  app.get("/api/modules/:mid", findModuleById);
+  app.delete("/api/modules/:mid", deleteModule);
+  app.put("/api/modules/:mid", updateModule);
+  app.post("/api/modules/:mid", createSection);
+  app.post("/api/modules/:mid/section/:sid", createLesson);
 }
 export default ModuleRoutes;
