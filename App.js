@@ -11,6 +11,7 @@ import ModuleRoutes from './Kanbas/modules/routes.js'
 import AssignmentRoutes from './Kanbas/assignments/routes.js';
 import TodoRoutes from './Kanbas/todos/routes.js';
 import ComingUpRoutes from './Kanbas/comingups/routes.js';
+import QuizzesRoutes from './Kanbas/Quizzes/routes.js';
 
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/kanbas?directConnection=true"
 mongoose.connect(CONNECTION_STRING);
@@ -45,4 +46,5 @@ ModuleRoutes(app)
 AssignmentRoutes(app)
 TodoRoutes(app)
 ComingUpRoutes(app)
+QuizzesRoutes(app)
 app.listen(process.env.PORT || 4000);
