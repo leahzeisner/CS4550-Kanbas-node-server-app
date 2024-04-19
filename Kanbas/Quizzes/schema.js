@@ -1,55 +1,43 @@
 import mongoose from "mongoose";
 const quizSchema = new mongoose.Schema(
   {
-    courseId: { String, required: true },
-    title: { String, required: true },
-    description: { String, required: true },
-    dueDate: { Date, required: true },
-    availableDate: { Date, required: true },
-    availableUntilDate: { Date, required: true },
-    points: { String, required: true },
-    published: { Boolean, required: true },
+    courseId: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String },
+    dueDate: { type: Date },
+    availableDate: { type: Date },
+    availableUntilDate: { type: Date },
+    points: { type: String, required: true },
+    published: { type: Boolean, required: true },
     questions: [{
+      questionId: {type: String, required: true },
       type: {
-        type: { String, required: true },
+        type: String,
+        required: true,
         enum: ["MULTIPLE_CHOICE", "TRUE_FALSE", "FILL_IN_BLANKS"],
         default: "MULTIPLE_CHOICE",
       },
-      title: { String, required: true },
-      question: { String, required: true },
+      title: { type: String, required: true },
+      question: { type: String, required: true },
       answers: [{
-        answer: { String, required: true },
-        isCorrect: { Boolean, required: true },
+        answerId: {type: String, required: true },
+        answer: { type: String, required: true },
+        isCorrect: { type: Boolean, required: true },
       }],
-      points: { String, required: true },
+      points: { type: String, required: true },
     }],
-    quizType: { String, required: true },
-    assignmentGroup: { String, required: true },
-    shuffleAnswers: { Boolean, required: true },
-    timeLimit: { String, required: true },
-    multipleAttempts: { Boolean, required: true },
-    accessCode: { String, required: true },
-    oneQuestionAtATime: { Boolean, required: true },
-    webcamRequired: { Boolean, required: true },
-    lockQuestionsAfterAnswering: { Boolean, required: true },
+    quizType: { type: String, required: true },
+    assignmentGroup: { type: String, required: true },
+    shuffleAnswers: { type: Boolean, required: true },
+    timeLimit: { type: String, required: true },
+    multipleAttempts: { type: Boolean, required: true },
+    accessCode: { type: String},
+    oneQuestionAtATime: { type: Boolean, required: true },
+    webcamRequired: { type: Boolean, required: true },
+    lockQuestionsAfterAnswering: { type: Boolean, required: true },
     showCorrectAnswers: String,
   },
   { collection: "quizzes" }
 );
-
-const questionSchema = new mongoose.Schema({
-  type: {
-    type: { String, required: true },
-    enum: ["MULTIPLE_CHOICE", "TRUE_FALSE", "FILL_IN_BLANKS"],
-    default: "MULTIPLE_CHOICE",
-  },
-  title: { String, required: true },
-  question: { String, required: true },
-  answers: {
-    answer: { String, required: true },
-    isCorrect: { Boolean, required: true },
-  },
-  points: { String, required: true },
-});
 
 export default quizSchema;
