@@ -19,7 +19,7 @@ const app = express()
 app.use(
     cors({
         credentials: true,
-        origin: process.env.NODE_ENV === "development" ? process.env.FRONTEND_URL : "https://final-project--comfy-snickerdoodle-24515c.netlify.app/"
+        origin: process.env.NODE_ENV === "development" ? process.env.FRONTEND_URL : "https://final-project--comfy-snickerdoodle-24515c.netlify.app"
     })
 );
 
